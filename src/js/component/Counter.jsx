@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from "react";
 
 export const Counter = () => {
@@ -6,7 +7,7 @@ export const Counter = () => {
     const [counter, setCounter] = useState(0);
     const [isRunning, setIsRunning] = useState(false)
     const [status, setStaus] = useState({
-        text: 'start',
+        text: 'empezar',
         background: 'alert alert-primary',
 
     })
@@ -17,7 +18,7 @@ export const Counter = () => {
         setStaus({
             text: 'empezo',
             background: 'alert alert-success',
-            textTitle: 'Contador'
+            textTitle: 'Contadorriendo el tiempo'
         })
     }
 
@@ -27,7 +28,7 @@ export const Counter = () => {
         setStaus({
             text: 'comienza',
             background: 'alert alert-primary',
-            textTitle: 'cronometro'
+            textTitle: 'contador' 
         })
     }
 
@@ -46,8 +47,8 @@ export const Counter = () => {
 
     return (
         <div className="container">
-            <h1 className="text-center">{status.textTitle} </h1>
-            <h2 className={status.background} style={{ display: 'flex', justifyContent: 'center', textAlign: 'center',  backgroundColor: 'lightpink'   }}  > { status.text} </h2>
+            <h1 className="text-center" style={{ color: 'mediumpurple' }} > {status.textTitle} </h1>
+            <h2 className={status.background} style={{ display: 'flex', justifyContent: 'center', textAlign: 'center',  backgroundColor: 'lightpink', color: 'purple'   }}  > { status.text} </h2>
             <div className="container background" style={{display: 'flex', justifyContent: 'center', color: 'mediumpurple', WebkitTextStroke: 'medium' }}>
   <div>{status.icon}</div>
   <div>{Math.floor(counter / 100000000 % 10)}</div>
@@ -65,10 +66,10 @@ export const Counter = () => {
 
             <div className="text-center mt-2">
                 <button onClick={handleStart} type="button" className="btn btn-outline-success fw-bold">
-                    {/* {isRunning ? 'Pause' : 'Start'}   */}
-                    {isRunning ? 'Pause' : counter === 0 ? 'Start' : 'Continue'}
+                    {}
+                    {isRunning ? 'Pausar' : counter === 0 ? 'Comenzar' : 'Continuar'}
                 </button> 
-                <button onClick={handleReset} type="button" className="btn btn-outline-danger fw-bold">Reset</button>
+                <button onClick={handleReset} type="button" className="btn btn-outline-danger fw-bold">Resetear</button>
             </div>
 
         </div>
