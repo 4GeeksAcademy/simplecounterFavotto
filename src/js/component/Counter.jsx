@@ -4,7 +4,6 @@ export const Counter = ({
   counter,
   isRunning,
   onStart,
-  onPause,
   onReset,
   onCountdown,
   buttonText,
@@ -15,12 +14,9 @@ export const Counter = ({
   countdownTime,
 }) => {
 
-  const handleStartPause = () => {
-    if (isRunning) {
-      onPause();
-    } else {
-      onStart();
-    }
+  const handleStartPause = (event) => {
+    event.stopPropagation();
+    onStart();
   };
 
   const handleCountdown = () => {
@@ -46,10 +42,10 @@ export const Counter = ({
       </div>
 
       <div className="text-center mt-2">
-        <button onClick={handleStartPause} type="button" className={buttonBackground} fw-bold>
+        <button onClick={handleStartPause} type="button" className={buttonBackground}>
           {buttonText}
         </button>
-        <button onClick={onReset} type="button" className="btn btn-outline-danger fw-bold">Resetear</button>
+        <button onClick={onReset} type="button" className="btn btn-outline-danger fw-bold">Reset</button>
         <button onClick={handleCountdown} type="button" className="btn btn-outline-warning fw-bold">Countdown</button>
       </div>
     </div>

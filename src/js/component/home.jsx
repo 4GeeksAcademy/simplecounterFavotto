@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'; 
+import React, { useState, useEffect, useRef } from 'react';
 import Counter from './Counter';
 
 function Home() {
@@ -9,7 +9,6 @@ function Home() {
   const [countdownTime, setCountdownTime] = useState(0);
   const countdownRef = useRef(null);
 
-  
   useEffect(() => {
     if (isRunning) {
       const intervalId = setInterval(() => {
@@ -19,7 +18,6 @@ function Home() {
     }
   }, [isRunning]);
 
-  
   const handleStartPause = () => {
     if (isRunning) {
       setIsRunning(false);
@@ -32,7 +30,6 @@ function Home() {
     }
   };
 
-  
   const handleReset = () => {
     setCounter(0);
     setCountdownTime(0);
@@ -43,9 +40,7 @@ function Home() {
     setButtonBackground('btn btn-outline-success');
   };
 
-  
   const handleCountdown = () => {
-    
     setIsRunning(false);
     clearInterval(countdownRef.current);
     countdownRef.current = null;
@@ -87,4 +82,3 @@ function Home() {
 }
 
 export default Home;
-
