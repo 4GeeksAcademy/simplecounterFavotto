@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react'; 
 import Counter from './Counter';
 
 function Home() {
@@ -7,49 +7,63 @@ function Home() {
   const [buttonText, setButtonText] = useState('Comenzar');
   const [buttonBackground, setButtonBackground] = useState('btn btn-outline-success');
   const [countdownTime, setCountdownTime] = useState(0);
+  const countdownRef = useRef(null);
 
+  
   useEffect(() => {
     if (isRunning) {
       const intervalId = setInterval(() => {
         setCounter(prevCounter => prevCounter + 1);
-      }, 10);
+      }, 1000);
       return () => clearInterval(intervalId);
     }
   }, [isRunning]);
 
-  const handleStart = () => {
-    setIsRunning(true);
-    setButtonText('Pausar');
-    setButtonBackground('btn btn-outline-danger');
+  
+  const handleStartPause = () => {
+    if (isRunning) {
+      setIsRunning(false);
+      setButtonText('Comenzar');
+      setButtonBackground('btn btn-outline-success');
+    } else {
+      setIsRunning(true);
+      setButtonText('Pausar');
+      setButtonBackground('btn btn-outline-danger');
+    }
   };
 
-  const handlePause = () => {
+  
+  const handleReset = () => {
+    setCounter(0);
+    setCountdownTime(0);
     setIsRunning(false);
+    clearInterval(countdownRef.current); 
+    countdownRef.current = null;
     setButtonText('Comenzar');
     setButtonBackground('btn btn-outline-success');
   };
 
-  const handleReset = () => {
-    setCounter(0);
-    setIsRunning(false);
-    setIsCountingDown(false);
-    setCountdownTime(counter);
-  };
-
+  
   const handleCountdown = () => {
-    setIsRunning(false); 
+    
+    setIsRunning(false);
+    clearInterval(countdownRef.current);
+    countdownRef.current = null;
+
     setCountdownTime(counter); 
 
-    const intervalId = setInterval(() => {
-      if (countdownTime > 0) {
-        setCountdownTime(prevTime => prevTime - 1);
-      } else {
-        
-        setIsRunning(true);
-        setButtonText('Pausar');
-        setButtonBackground('btn btn-outline-danger');
-        clearInterval(intervalId);
-      }
+    countdownRef.current = setInterval(() => {
+      setCountdownTime(prevTime => {
+        if (prevTime <= 1) {
+          clearInterval(countdownRef.current); 
+          countdownRef.current = null;
+          setIsRunning(true);
+          setButtonText('Pausar');
+          setButtonBackground('btn btn-outline-danger');
+          return 0;
+        }
+        return prevTime - 1; 
+      });
     }, 1000);
   };
 
@@ -58,8 +72,7 @@ function Home() {
       <Counter
         counter={counter}
         isRunning={isRunning}
-        onStart={handleStart}
-        onPause={handlePause}
+        onStart={handleStartPause}
         onReset={handleReset}
         onCountdown={handleCountdown}
         buttonText={buttonText}
@@ -67,10 +80,11 @@ function Home() {
         textTitle="Contador"
         text="Empezar"
         background="alert alert-primary"
-        countdownTime={countdownTime} 
+        countdownTime={countdownTime > 0 ? countdownTime : counter} 
       />
     </div>
   );
 }
 
 export default Home;
+
